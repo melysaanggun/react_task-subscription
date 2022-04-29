@@ -2,149 +2,36 @@ export default function Loading() {
   return (
     <svg
       style={{
-          margin: 'auto',
-          background: 'rgb(255, 255, 255)',
-          display: 'block',
-          shapeRendering: 'auto',
+        margin: 'auto',
+        background: 'rgb(241, 242, 243)',
+        display: 'block', 
+        shapeRendering: 'auto'
       }}
       width="200px"
       height="200px"
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
     >
-      <circle cx="84" cy="50" r="10" fill="#e15b64">
+      <path
+        fill="none"
+        stroke="#1d0e0b"
+        stroke-width="8"
+        stroke-dasharray="42.76482137044271 42.76482137044271"
+        d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z"
+        stroke-linecap="round"
+        style={{
+          transform: 'scale(0.8)',
+          transformOrigin: '50px 50px'
+        }}
+      >
         <animate
-          attributeName="r"
+          attributeName="stroke-dashoffset"
           repeatCount="indefinite"
-          dur="0.7575757575757576s"
-          calcMode="spline"
+          dur="1s"
           keyTimes="0;1"
-          values="10;0"
-          keySplines="0 0.5 0.5 1"
-          begin="0s"
-        >
-          {" "}
-        </animate>
-        <animate
-          attributeName="fill"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="discrete"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="#e15b64;#abbd81;#f8b26a;#f47e60;#e15b64"
-          begin="0s"
-        >
-          {" "}
-        </animate>{" "}
-      </circle>
-      <circle cx="16" cy="50" r="10" fill="#e15b64">
-        {" "}
-        <animate
-          attributeName="r"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="0;0;10;10;10"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="0s"
-        >
-          {" "}
-        </animate>{" "}
-        <animate
-          attributeName="cx"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="16;16;16;50;84"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="0s"
-        >
-          {" "}
-        </animate>{" "}
-      </circle>
-      <circle cx="50" cy="50" r="10" fill="#f47e60">
-        {" "}
-        <animate
-          attributeName="r"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="0;0;10;10;10"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="-0.7575757575757576s"
-        >
-          {" "}
-        </animate>{" "}
-        <animate
-          attributeName="cx"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="16;16;16;50;84"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="-0.7575757575757576s"
-        >
-          {" "}
-        </animate>{" "}
-      </circle>
-      <circle cx="84" cy="50" r="10" fill="#f8b26a">
-        {" "}
-        <animate
-          attributeName="r"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="0;0;10;10;10"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="-1.5151515151515151s"
-        >
-          {" "}
-        </animate>{" "}
-        <animate
-          attributeName="cx"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="16;16;16;50;84"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="-1.5151515151515151s"
-        >
-          {" "}
-        </animate>{" "}
-      </circle>
-      <circle cx="16" cy="50" r="10" fill="#abbd81">
-        {" "}
-        <animate
-          attributeName="r"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="0;0;10;10;10"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="-2.2727272727272725s"
-        >
-          {" "}
-        </animate>{" "}
-        <animate
-          attributeName="cx"
-          repeatCount="indefinite"
-          dur="3.0303030303030303s"
-          calcMode="spline"
-          keyTimes="0;0.25;0.5;0.75;1"
-          values="16;16;16;50;84"
-          keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1"
-          begin="-2.2727272727272725s"
-        >
-          {" "}
-        </animate>{" "}
-      </circle>
+          values="0;256.58892822265625"
+        ></animate>
+      </path>
     </svg>
   );
 }

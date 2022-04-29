@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Todo from 'components/Todo';
-import { gql, useQuery, useLazyQuery } from '@apollo/client';
+import { gql, useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import Loading from 'components/Loading';
 import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 
@@ -25,13 +25,44 @@ query MyQuery($user_id: Int!) {
 }
 `
 
+const UpdateTodolist = gql `
+mutation MyMutation($id: Int!, $is_done: Boolean) {
+  update_todolist_by_pk(pk_columns: {id: $id}, _set: {is_done: $is_done}) {
+    id
+  }
+}
+`
+const DeleteTodolist = gql`
+mutation MyMutation($id: Int!) {
+  delete_todolist_by_pk(id: $id) {
+    id
+  }
+}
+`
+
+const InserTodolist =gql`
+mutation MyMutation($object: todolist_insert_input!) {
+  insert_todolist_one(object: $object) {
+    id
+  }
+}
+
+`
+
 function TodoList() {
-  const [getTodo, { data, loading, error }] = useLazyQuery(GetTodolistById);
-  const [userId, setUserId] = useState(0);
+  const { data, loading, error, refetch } = useQuery(GetTodolist);
+  //const [userId, setUserId] = useState(0);
+  const [updateTodo, {loading: loadingUpdate}] = useMutation(UpdateTodolist)
+  const [deleteTodo, {loading: loadingDelete}] = useMutation(DeleteTodolist, {
+    refetchQueries: [GetTodolist]
+  })
+  const [insertTodo, {loading: loadingInsert}] = useMutation(InserTodolist, {
+    refetchQueries: [GetTodolist]
+  })
   const [list, setList] = useState([]);
   const [title, setTitle] = useState('');
 
-  if(loading) {
+  if(loading || loadingUpdate) {
     <Loading />
   }
 
@@ -43,47 +74,56 @@ function TodoList() {
 
   const onSubmitList = (e) => {
     e.preventDefault();
-    setList((prev) => [...prev, { checked: false, title }]);
+    insertTodo({variables: {
+      object: {
+        title: title,
+        user_id: 1
+      }
+    }})
     setTitle('');
   };
 
-  const onClickItem = (idx) => {
-    const newList = [...list];
-    newList[idx].checked = !newList[idx].checked;
-    setList(newList);
+  const onClickItem = async (idx) => {
+    const item = data?.todolist.find(v => v.id === idx)
+    await updateTodo({variables: {
+      id: idx,
+      is_done: !item.is_done
+    }})
+    refetch();
   };
 
   const onDeleteItem = (idx) => {
-    const newList = list.filter((_, i) => i !== idx);
-    setList(newList);
+    deleteTodo({variables: {
+      id: idx
+    }})
   };
 
-  const HandleGetData = () => {
-    getTodo({variables: {
-      user_id : userId
-    }});
-    setList(data?.todolist);
-  }
+  // const HandleGetData = () => {
+  //   getTodolist({variables: {
+  //     user_id : userId
+  //   }});
+  //   setList(data?.todolist);
+  // }
 
-  const onChangeUserId = (e) => {
-    if(e.target) {
-      setUserId(e.target.value)
-    }
-  }
+  // const onChangeUserId = (e) => {
+  //   if(e.target) {
+  //     setUserId(e.target.value)
+  //   }
+  // }
 
   return (
     <>
       <div className='container'>
-        <input value={userId} onChange={onChangeUserId} />
-        <button onClick={HandleGetData}>Get Data By Id</button>
+        {/* <input value={userId} onChange={onChangeUserId} />
+        <button onClick={HandleGetData}>Get Data</button> */}
         <h1 className='app-title'>todos</h1>
         <ul className='todo-list js-todo-list'>
-          {data?.todolist.map((v, i) => (
+          {data?.todolist.map((v) => (
             <Todo
-              key={i}
-              id={i}
-              onClickItem={() => onClickItem(i)}
-              onDeleteItem={() => onDeleteItem(i)}
+              key={v.id}
+              id={v.id}
+              onClickItem={() => onClickItem(v.id)}
+              onDeleteItem={() => onDeleteItem(v.id)}
               title={v.title}
               checked={v.is_done}
             />
