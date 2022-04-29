@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Todo from 'components/Todo';
-import { gql, useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { gql, useQuery, useLazyQuery, useMutation, useSubscription} from '@apollo/client';
 import Loading from 'components/Loading';
 import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 
@@ -46,11 +46,20 @@ mutation MyMutation($object: todolist_insert_input!) {
     id
   }
 }
+`
 
+const SubscriptionTodo = gql `
+subscription MySubscription {
+  todolist {
+    id
+    is_done
+    title
+  }
+}
 `
 
 function TodoList() {
-  const { data, loading, error, refetch } = useQuery(GetTodolist);
+  // const { data, loading, error, refetch } = useQuery(GetTodolist);
   //const [userId, setUserId] = useState(0);
   const [updateTodo, {loading: loadingUpdate}] = useMutation(UpdateTodolist)
   const [deleteTodo, {loading: loadingDelete}] = useMutation(DeleteTodolist, {
@@ -59,6 +68,8 @@ function TodoList() {
   const [insertTodo, {loading: loadingInsert}] = useMutation(InserTodolist, {
     refetchQueries: [GetTodolist]
   })
+
+  const {data, loading, error, refetch} = useSubscription(SubscriptionTodo);
   const [list, setList] = useState([]);
   const [title, setTitle] = useState('');
 
