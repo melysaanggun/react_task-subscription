@@ -8,19 +8,11 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 
 const httpLink = new HttpLink({
-  uri: 'https://mature-squirrel-42.hasura.app/v1/graphql',
-  headers: {
-    "x-hasura-admin-secret" : "mlmFfHK5ymxK3M2KCsmfAYH6Tl3bLhlUCbQ922V7a0wds3pn3DhBx31KIrkLZyC8"
-  }
+  uri: 'https://mature-squirrel-42.hasura.app/v1/graphql'
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://mature-squirrel-42.hasura.app/v1/graphql',
-  connectionParams: {
-    headers: {
-      "x-hasura-admin-secret" : "mlmFfHK5ymxK3M2KCsmfAYH6Tl3bLhlUCbQ922V7a0wds3pn3DhBx31KIrkLZyC8"
-    }
-  }
+  url: 'wss://mature-squirrel-42.hasura.app/v1/graphql',
 }));
 
 const splitLink = split(

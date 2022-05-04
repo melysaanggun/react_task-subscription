@@ -61,7 +61,9 @@ subscription MySubscription {
 function TodoList() {
   // const { data, loading, error, refetch } = useQuery(GetTodolist);
   //const [userId, setUserId] = useState(0);
-  const [updateTodo, {loading: loadingUpdate}] = useMutation(UpdateTodolist)
+  const [updateTodo, {loading: loadingUpdate}] = useMutation(UpdateTodolist, {
+    refetchQueries: [GetTodolist]
+  })
   const [deleteTodo, {loading: loadingDelete}] = useMutation(DeleteTodolist, {
     refetchQueries: [GetTodolist]
   })
@@ -94,13 +96,10 @@ function TodoList() {
     setTitle('');
   };
 
-  const onClickItem = async (idx) => {
-    const item = data?.todolist.find(v => v.id === idx)
-    await updateTodo({variables: {
-      id: idx,
-      is_done: !item.is_done
+  const onClickItem = (idx) => {
+    updateTodo({variables: {
+      id: idx
     }})
-    refetch();
   };
 
   const onDeleteItem = (idx) => {
